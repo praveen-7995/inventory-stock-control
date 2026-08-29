@@ -33,7 +33,7 @@ Frontend is now at http://localhost:5173.
 
 | Role    | Email                 | Password    | Notes                           |
 |---------|-----------------------|-------------|----------------------------------|
-| Manager | manager@example.com   | password123 | full access, all locations       |
+| Manager | praveennaik7995@gmail.com | password123 | full access, all locations   |
 | Staff   | staff1@example.com    | password123 | assigned to Main Warehouse       |
 | Staff   | staff2@example.com    | password123 | assigned to Retail Store A & B   |
 

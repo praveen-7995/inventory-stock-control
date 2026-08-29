@@ -30,8 +30,8 @@ def run():
             print("Database already has data - skipping seed.")
             return
 
-        manager = User(email="manager@example.com", hashed_password=hash_password("password123"),
-                        name="Priya Manager", role=Role.manager)
+        manager = User(email="praveennaik7995@gmail.com", hashed_password=hash_password("password123"),
+                        name="Praveen Naik", role=Role.manager)
         staff1 = User(email="staff1@example.com", hashed_password=hash_password("password123"),
                       name="Alex Warehouse", role=Role.staff)
         staff2 = User(email="staff2@example.com", hashed_password=hash_password("password123"),
@@ -153,7 +153,7 @@ def run():
 
         db.commit()
         print("Seed complete.")
-        print("Manager login: manager@example.com / password123")
+        print("Manager login: praveennaik7995@gmail.com / password123")
         print("Staff logins:  staff1@example.com / password123 (Main Warehouse)")
         print("               staff2@example.com / password123 (Retail Store A & B)")
     finally:

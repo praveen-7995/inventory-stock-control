@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 export default function Login() {
   const { login, token, loading } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("manager@example.com");
+  const [email, setEmail] = useState("praveennaik7995@gmail.com");
   const [password, setPassword] = useState("password123");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -48,7 +48,7 @@ export default function Login() {
           </button>
         </form>
         <div className="info-banner" style={{ marginTop: 18, marginBottom: 0, fontSize: 12 }}>
-          Demo logins — manager@example.com / staff1@example.com / staff2@example.com, all with password <code>password123</code>.
+          Demo logins — praveennaik7995@gmail.com (manager) / staff1@example.com / staff2@example.com, all with password <code>password123</code>.
         </div>
       </div>
     </div>
