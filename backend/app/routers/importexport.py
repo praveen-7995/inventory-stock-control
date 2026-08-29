@@ -153,8 +153,6 @@ def export_stock(db: Session = Depends(get_db), _: User = Depends(get_current_us
         per_location = on_hand_by_item_and_location(db, item.id)
         for location in locations:
             qty = per_location.get(location.id, 0)
-            if qty == 0:
-                continue
             writer.writerow([item.sku, item.name, item.category.name, location.name, qty])
 
     buf.seek(0)

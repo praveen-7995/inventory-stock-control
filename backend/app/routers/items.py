@@ -32,7 +32,7 @@ def list_items(
     search: Optional[str] = Query(None, description="matches name or SKU"),
     category_id: Optional[int] = None,
     location_id: Optional[int] = None,
-    archived: Optional[bool] = Query(None, description="filter by archived status"),
+    archived: Optional[bool] = Query(None, description="filter by archived status; defaults to active items only"),
     at_or_below_reorder: bool = Query(False),
     sort_by: str = Query("name", pattern="^(name|on_hand|reorder_level)$"),
     sort_dir: str = Query("asc", pattern="^(asc|desc)$"),
@@ -55,7 +55,14 @@ def list_items(
         query = query.filter(or_(Item.name.ilike(like), Item.sku.ilike(like)))
     if category_id is not None:
         query = query.filter(Item.category_id == category_id)
-    if archived is not None:
+    # Goal #2: archiving removes an item from day-to-day lists. Unless the
+    # caller explicitly asks to see archived items (archived=true) or
+    # explicitly asks for everything (archived left as a query string like
+    # "" is not supported - the two valid explicit values are true/false),
+    # the default view only shows active items.
+    if archived is None:
+        query = query.filter(Item.is_archived.is_(False))
+    else:
         query = query.filter(Item.is_archived == archived)
     if location_id is not None:
         from app.models import StockMovement

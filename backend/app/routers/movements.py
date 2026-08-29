@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import StockMovement, MovementKind, Item, Location, User
 from app.schemas import MovementCreate, MovementOut
-from app.deps import get_current_user, assert_can_act_at_location
+from app.deps import get_current_user, assert_can_act_at_location, assert_can_act_on_transfer
 from app.stock import on_hand_by_location_for_item, on_hand_total_for_item
 
 router = APIRouter(prefix="/movements", tags=["movements"])
@@ -69,8 +69,7 @@ def create_movement(payload: MovementCreate, db: Session = Depends(get_db),
         raise HTTPException(status.HTTP_403_FORBIDDEN, "Only managers can record adjustments")
 
     if payload.kind == MovementKind.transfer:
-        assert_can_act_at_location(db, current_user, payload.from_location_id)
-        assert_can_act_at_location(db, current_user, payload.to_location_id)
+        assert_can_act_on_transfer(db, current_user, payload.from_location_id, payload.to_location_id)
         for loc_id in (payload.from_location_id, payload.to_location_id):
             if not db.get(Location, loc_id):
                 raise HTTPException(status.HTTP_400_BAD_REQUEST, f"Unknown location_id {loc_id}")

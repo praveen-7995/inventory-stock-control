@@ -40,3 +40,23 @@ def assert_can_act_at_location(db: Session, user: User, location_id: int) -> Non
     )
     if not assigned:
         raise HTTPException(status.HTTP_403_FORBIDDEN, "You are not assigned to this location")
+
+
+def assert_can_act_on_transfer(db: Session, user: User, from_location_id: int, to_location_id: int) -> None:
+    """
+    A transfer touches two locations at once. We require the staff member to
+    be assigned to at least one side of it (the one they're physically at),
+    rather than both - a warehouse worker should be able to ship stock out to
+    a store they don't personally staff, for example. Managers act anywhere.
+    """
+    if user.role == Role.manager:
+        return
+    assigned_ids = {
+        a.location_id for a in
+        db.query(LocationAssignment).filter(LocationAssignment.user_id == user.id).all()
+    }
+    if from_location_id not in assigned_ids and to_location_id not in assigned_ids:
+        raise HTTPException(
+            status.HTTP_403_FORBIDDEN,
+            "You must be assigned to the source or destination location to record this transfer",
+        )
