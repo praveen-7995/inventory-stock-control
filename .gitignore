@@ -11,3 +11,5 @@ venv/
 *.log
 .DS_Store
 inventory.db
+backend/server.log
+frontend/frontend.log

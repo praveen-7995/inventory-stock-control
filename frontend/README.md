@@ -1,16 +1,29 @@
-# React + Vite
+# Frontend (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+## Local dev
 
-Currently, two official plugins are available:
+```bash
+npm install
+cp .env.example .env   # point VITE_API_URL at your backend
+npm run dev
+```
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Runs at http://localhost:5173, expects the backend at the URL in `.env` (defaults to http://localhost:8000).
 
-## React Compiler
+## Build
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm run build   # outputs to dist/
+```
 
-## Expanding the Oxlint configuration
+## Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- `src/api.js` — thin fetch wrapper around every backend endpoint.
+- `src/context/AuthContext.jsx` — holds the JWT + current user, persisted in `localStorage`.
+- `src/components/RouteGuards.jsx` — `RequireAuth` / `RequireManager` route wrappers.
+- `src/components/Layout.jsx` — sidebar nav, polls `/alerts` every 30s for the badge count.
+- `src/pages/` — one file per screen (Dashboard, ItemsList, ItemDetail, Alerts, ImportExport, Admin).
+
+## Deploying (e.g. Vercel/Netlify)
+
+Set `VITE_API_URL` to your deployed backend's URL as a build-time environment variable, then build and deploy the `dist/` folder as a static site.

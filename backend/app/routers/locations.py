@@ -10,11 +10,16 @@ from app.deps import get_current_user, require_manager
 router = APIRouter(tags=["locations"])
 
 
-@router.get("/locations", response_model=list[LocationOut])
-def list_locations(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+@router.get("/locations/mine", response_model=list[LocationOut])
+def list_my_locations(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Scoped to what this user can actually record movements at - all
+    locations for a manager, only assigned locations for staff. Used to
+    populate the "record a movement" location dropdowns so staff aren't
+    offered choices the server will reject anyway.
+    """
     if current_user.role == Role.manager:
         return db.query(Location).order_by(Location.name).all()
-    # Staff only see locations they're assigned to.
     return (
         db.query(Location)
         .join(LocationAssignment, LocationAssignment.location_id == Location.id)
@@ -22,6 +27,17 @@ def list_locations(db: Session = Depends(get_db), current_user: User = Depends(g
         .order_by(Location.name)
         .all()
     )
+
+
+@router.get("/locations", response_model=list[LocationOut])
+def list_locations(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    """
+    Every authenticated user can see the full list of locations - that's just
+    reference data (needed to show location names in history/ledger views).
+    The actual restriction - staff can only *act* at locations they're
+    assigned to - is enforced where movements are created, not here.
+    """
+    return db.query(Location).order_by(Location.name).all()
 
 
 @router.post("/locations", response_model=LocationOut, status_code=status.HTTP_201_CREATED)
