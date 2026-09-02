@@ -5,7 +5,9 @@ Fill this in and commit it. This is the first file we open.
 ## Links
 
 - **GitHub repository:** https://github.com/praveen-7995/inventory-stock-control
-- **Live application:** Not deployed yet
+- **Live application:** https://frontend-sand-five-45.vercel.app/
+- **Backend application:** https://inventory-stock-control.onrender.com/
+
 
 ## Notes for the reviewer
 
