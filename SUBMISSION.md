@@ -36,7 +36,7 @@ The Manager has full access to all locations. Staff1 is assigned to Main Warehou
 | Frontend | React 19 + Vite, React Router, Recharts | Fast development with a lightweight frontend stack and dashboard charting support. |
 | Backend | FastAPI + SQLAlchemy 2.0, JWT authentication using python-jose, bcrypt/passlib | Fast API development, automatic OpenAPI documentation, and structured database access. |
 | Database | SQLite for local development / PostgreSQL for production | SQLite provides zero-setup local development, while the same application can use PostgreSQL through `DATABASE_URL`. |
-| Hosting | Not deployed yet | The application is currently configured for local development. |
+| Hosting | Deployed | The application is deployed on Vercel and Render for production hosting. |
 
 ## Goal checklist
 
